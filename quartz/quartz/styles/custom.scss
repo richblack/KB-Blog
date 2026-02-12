@@ -1,0 +1,102 @@
+@use "./base.scss";
+
+// Increase spacing between list items for better readability
+ul,
+ol {
+    li {
+        margin-bottom: 0.8rem;
+        line-height: 1.6;
+    }
+}
+
+// Adjust font size for body
+p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+// Image Styling: Remove bullets, full width, and caption styling
+ul,
+ol {
+    li:has(> img) {
+        list-style-type: none;
+        padding-left: 0;
+        margin-left: -1rem;
+
+        >img {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        // Caption styling
+        ul {
+            padding-left: 0;
+            margin-top: 0.2rem;
+
+            >li:first-child {
+                list-style-type: none;
+                font-size: 0.85rem;
+                color: var(--gray);
+                text-align: center;
+                margin-top: 0;
+                margin-bottom: 1rem;
+                line-height: 1.4;
+            }
+        }
+    }
+}
+
+// =============================================================================
+// Foldable/Collapsible Lists
+// 規則：所有有子項目的列表項目都可摺疊（圖片除外），預設展開
+// =============================================================================
+
+article ul,
+article ol {
+
+    // 針對所有有子列表的 li（排除含圖片的）
+    li:has(> ul):not(:has(> img)),
+    li:has(> ol):not(:has(> img)) {
+        position: relative;
+        cursor: pointer;
+        list-style-type: none; // 隱藏原 bullet，用箭頭取代
+
+        // 摺疊箭頭 (預設展開狀態 = 向下旋轉)
+        &::before {
+            content: '▶';
+            display: inline-block;
+            margin-right: 6px;
+            font-size: 0.75em;
+            transition: transform 0.2s ease;
+            color: var(--secondary);
+            position: absolute;
+            left: -1.5em;
+            top: 0.3em;
+            transform: rotate(90deg); // 預設展開
+        }
+
+        // 收合時箭頭轉回水平
+        &.collapsed::before {
+            transform: rotate(0deg);
+        }
+
+        // 預設顯示子列表
+        >ul,
+        >ol {
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        // 收合時隱藏子列表
+        &.collapsed>ul,
+        &.collapsed>ol {
+            display: none;
+        }
+    }
+}
