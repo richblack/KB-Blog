@@ -139,4 +139,35 @@ python3 scripts/crop_utils.py <圖片路徑>
     3.  告訴 AI：「請參考這個風格指南來撰寫這篇文章。」
 
 ---
+
+## ☁️ 部署到 Cloudflare Pages (Deployment Guide)
+
+這是目前最推薦的部署方式，完全免費且速度極快。
+
+### 1. 建立 Cloudflare Pages 專案
+1.  登入 [Cloudflare Dashboard](https://dash.cloudflare.com/)。
+2.  進入 **Workers & Pages** -> **Create application** -> **Pages** -> **Connect to Git**。
+3.  連結你的 GitHub 帳號並選擇這個儲存庫 (`KB-Blog` 或你的私有庫)。
+
+### 2. 設定建置參數 (Build Configuration)
+這是最關鍵的一步，請務必按照以下設定：
+
+*   **Project name**: (任意)
+*   **Production branch**: `main`
+*   **Framework preset**: `Quartz 4` (如果沒有，選 `None`)
+*   **Build command**:
+    ```bash
+    rm .gitignore && pip install -r requirements.txt && python3 scripts/publish.py && npx quartz build
+    ```
+    *(解釋：先刪除 .gitignore 以確保讀得到 content，然後安裝 Python 依賴，執行發佈腳本，最後建置網站)*
+*   **Build output directory**: `public`
+*   **Root directory**: (留空)
+
+### 3. 環境變數 (Environment Variables)
+通常不需要設定，預設的 Python 和 Node.js 版本即可運作。
+
+### 4. 自訂網域 (Custom Domain)
+部署成功後，你可以到專案的 **Custom domains** 頁籤設定你自己的網址 (例如 `blog.example.com`)。
+
+---
 *Powered by [Quartz v4](https://quartz.jzhao.xyz/) and Logseq.*
