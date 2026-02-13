@@ -7,8 +7,8 @@ export const sharedPageComponents: SharedLayout = {
   header: [
     Component.Navbar({
       links: {
-        "標籤整理": "/all-tags",
-        "日期整理": "/archive",
+        "文章列表": "/archive",
+        "標籤索引": "/all-tags",
         "關於我": "/about",
       },
     }),

@@ -42,9 +42,17 @@ cd my-website
 將你的 Logseq `pages` 和 `journals` 資料夾複製到 `content` 資料夾中。
 *(或者讓 AI Agent 幫你同步！)*
 
-### 3. 自定義
--   **設定**：打開 `quartz.config.ts` 修改你的網站名稱和網址。
--   **Logo**：將 `quartz/static/logo.png` 替換成你自己的圖片。
+### 3. 個人化設定 (AI 輔助) 🤖
+
+我們提供了一份 **[給 AI 的設定指南 (AI_SETUP.md)](./AI_SETUP.md)**。
+
+**你不需要懂程式碼，只要這樣做：**
+1.  打開 `AI_SETUP.md` 檔案。
+2.  複製裡面的內容。
+3.  貼給 ChatGPT / Claude / Gemini。
+4.  AI 就會一步步問你網站叫什麼名字、網址是什麼，然後幫你寫好設定檔！
+
+當然，如果你是開發者，也可以直接編輯 `quartz.config.ts` 和 `quartz.layout.ts`。
 
 ### 4. 建置與預覽
 ```bash
