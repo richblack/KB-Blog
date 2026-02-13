@@ -132,7 +132,7 @@ python3 scripts/crop_utils.py <圖片路徑>
 ### 2. AI 寫作技能 (AI Skills)
 你可以教導 AI (如 Cursor, Cline) 模仿你的寫作風格。
 
-*   **位置**：`KB/skills/writing_skill_template.md`
+*   **位置**：`skills/writing_skill_template.md`
 *   **用法**：
     1.  複製這個檔案，填入你喜歡的寫作風格範例。
     2.  在與 AI 對話時，引用這個檔案（例如 `@writing_skill.md`）。
