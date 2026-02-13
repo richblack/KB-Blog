@@ -62,16 +62,16 @@ npx quartz build --serve
 
 ## 🚀 如何將此引擎變成你自己的 (Configuration Guide)
 
-這個引擎已經預裝了許多「六叔」的個人設定 (例如 GA4、網站標題、Logo)。在你使用之前，請務必修改以下檔案。
+這個引擎是一個通用的網站發佈工具。在你使用之前，請務必修改以下檔案，填入你自己的資訊。
 
 如果你不懂程式碼，不用擔心！每個項目我都準備了 **「給 AI 的指令 (Prompt)」**，你只要複製貼上給 ChatGPT/Claude/Gemini，它就會教你怎麼改。
 
 ### 1. 核心網站設定 (`quartz.config.ts`)
 這是網站的控制中心，請修改：
-*   **網站標題 (Page Title)**: 目前是 "六叔觀察站"
-*   **網址 (Base URL)**: 目前是 "uncle6.me"
-*   **分析追蹤 (Analytics)**: 目前是 "G-EL62JF5PED" (請換成你自己的，或刪除)
-*   **語言 (Locale)**: 目前是 "zh-TW"
+*   **網站標題 (Page Title)**: 預設為 "您的網站標題"
+*   **網址 (Base URL)**: 預設為 "your-website.com"
+*   **分析追蹤 (Analytics)**: 預設為空的 GA ID (請填入你自己的，或刪除)
+*   **語言 (Locale)**: 預設為 "zh-TW"
 
 > 🤖 **AI Prompt**:
 > "請幫我修改 `quartz.config.ts` 檔案。我要把網站標題改成 '[你的標題]'，網址改成 '[你的網址]'，並且把 Google Analytics ID 換成 '[你的ID]'。"
