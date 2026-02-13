@@ -52,10 +52,60 @@ npx quartz build --serve
 ```
 打開瀏覽器訪問 `http://localhost:8080` 即可看到你的網站！
 
-## 給開發者（或 AI Agents）
--   **Scripts**：查看 `scripts/` 資料夾，這裡是 Python 發佈邏輯的核心。
--   **Layout**：`quartz.layout.ts` 定義了網站的外觀和感覺。
--   **Styles**：`quartz/styles/custom.scss` 可以讓你調整顏色和字體。
+## 🚀 如何將此引擎變成你自己的 (Configuration Guide)
+
+這個引擎已經預裝了許多「六叔」的個人設定 (例如 GA4、網站標題、Logo)。在你使用之前，請務必修改以下檔案。
+
+如果你不懂程式碼，不用擔心！每個項目我都準備了 **「給 AI 的指令 (Prompt)」**，你只要複製貼上給 ChatGPT/Claude/Gemini，它就會教你怎麼改。
+
+### 1. 核心網站設定 (`quartz.config.ts`)
+這是網站的控制中心，請修改：
+*   **網站標題 (Page Title)**: 目前是 "六叔觀察站"
+*   **網址 (Base URL)**: 目前是 "uncle6.me"
+*   **分析追蹤 (Analytics)**: 目前是 "G-EL62JF5PED" (請換成你自己的，或刪除)
+*   **語言 (Locale)**: 目前是 "zh-TW"
+
+> 🤖 **AI Prompt**:
+> "請幫我修改 `quartz.config.ts` 檔案。我要把網站標題改成 '[你的標題]'，網址改成 '[你的網址]'，並且把 Google Analytics ID 換成 '[你的ID]'。"
+
+### 2. 網站外觀與導覽列 (`quartz.layout.ts`)
+決定網站 header (導覽列) 和 footer (頁尾) 要顯示什麼連結。
+*   **Navbar**: 目前有 "標籤整理"、"日期整理"、"關於我"
+*   **Footer**: 目前有 GitHub 和 Discord 連結
+
+> 🤖 **AI Prompt**:
+> "請幫我修改 `quartz.layout.ts`。我想要在 header 加入一個連結到 '[你的頁面]'，並且在 footer 加入我的 Email '[你的Email]'。"
+
+### 3. Logseq 編輯體驗 (重要！✨)
+為了讓你在 Logseq 寫作時也能看到漂亮的 `++/publish` 標籤樣式，你需要把我們提供的設定檔放進你的 Logseq：
+
+**步驟：**
+1.  找到下載下來的 `logseq/` 資料夾。
+2.  將裡面的 `custom.css` 和 `custom.js` 複製。
+3.  貼到你自己的 Logseq Graph 資料夾中的 `logseq/` 目錄下。
+4.  在 Logseq 中按下 `Re-index` 或重啟。
+
+### 4. 網站圖標 (Logo & Favicon)
+請準備你自己的圖片，替換掉預設的：
+*   **Logo**: `quartz/static/logo.png` (網站左上角圖示)
+*   **Favicon**: `quartz/static/icon.png` (瀏覽器分頁小圖示)
+
+> 🤖 **AI Prompt**: 
+> "我想更換網站的 Logo，我已經準備好一張圖片了，請問我要把它放在哪個資料夾？檔名需要是什麼？"
+
+### 5. 發佈腳本 (`scripts/`)
+這是本引擊的靈魂，通常**不需要修改**。
+它負責將你的 Logseq 內容 (`.md`) 轉換成 Quartz 看得懂的格式。
+
+**執行方式 (Mac/Linux)**:
+```bash
+# 首次執行需安裝
+python3 -m venv .venv
+.venv/bin/pip install PyYAML
+
+# 每次發佈
+.venv/bin/python3 scripts/publish.py
+```
 
 ---
 *Powered by [Quartz v4](https://quartz.jzhao.xyz/) and Logseq.*
