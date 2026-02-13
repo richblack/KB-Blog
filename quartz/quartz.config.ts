@@ -8,16 +8,16 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "六叔觀察站",
+    pageTitle: "您的網站標題",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
     analytics: {
       provider: "google",
-      tagId: "G-EL62JF5PED",
+      tagId: "UA-XXXXXXXXX-X", // 請填入您的 GA ID
     },
     locale: "zh-TW",
-    baseUrl: "uncle6.me",
+    baseUrl: "your-website.com",
     ignorePatterns: ["private", "templates", ".obsidian", ".git", "logseq", ".tmp*", ".DS_Store"],
     defaultDateType: "created",
     theme: {
