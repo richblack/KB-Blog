@@ -1,0 +1,68 @@
+/* --- 最終解決換行問題：超強效行內化 --- */
+.block-ref-wrap, 
+.block-ref-wrap .block-ref,
+.block-ref-wrap .inline,
+.block-ref-wrap .flex,
+.block-ref-wrap .flex-1,
+.block-ref-wrap .block-content,
+.block-ref-wrap .block-content > div {
+    display: inline !important;
+    flex: none !important;
+    width: auto !important;
+}
+
+/* --- 自定義 ?? 染色系統樣式 --- */
+.ls-custom-color {
+    display: inline !important;
+    font-weight: 600;
+    padding: 0 2px;
+}
+
+/* --- 配色維護中心 (Color Maintenance System) --- */
+:root {
+  /* 背景顏色 (用於 b/ 語法) */
+  --mark-red: #ef4444;    --mark-orange: #f97316;  --mark-yellow: #fde047;
+  --mark-green: #22c55e;   --mark-teal: #14b8a6;    --mark-sky: #0ea5e9;
+  --mark-blue: #3b82f6;    --mark-purple: #a855f7;  --mark-pink: #ec4899;
+  --mark-gray: #6b7280;
+
+  /* 文字顏色 (用於 t/ 語法) */
+  --span-red: #dc2626;    --span-orange: #ea580c;  --span-yellow: #ca8a04;
+  --span-green: #16a34a;   --span-teal: #0d9488;    --span-sky: #0284c7;
+  --span-blue: #2563eb;    --span-purple: #9333ea;  --span-pink: #db2777;
+  --span-gray: #4b5563;
+}
+
+/* 1. 文字顏色類別 (t/) */
+.ls-text-r { color: var(--span-red) !important; }
+.ls-text-o { color: var(--span-orange) !important; }
+.ls-text-y { color: var(--span-yellow) !important; }
+.ls-text-g { color: var(--span-green) !important; }
+.ls-text-t { color: var(--span-teal) !important; }
+.ls-text-s { color: var(--span-sky) !important; }
+.ls-text-b { color: var(--span-blue) !important; }
+.ls-text-p { color: var(--span-purple) !important; }
+.ls-text-i { color: var(--span-pink) !important; }
+.ls-text-a { color: var(--span-gray) !important; }
+
+/* 2. 背景顏色類別 (b/) - 自動配對對比文字色 */
+.ls-bg-r { background-color: var(--mark-red) !important; color: white !important; }
+.ls-bg-o { background-color: var(--mark-orange) !important; color: white !important; }
+.ls-bg-y { background-color: var(--mark-yellow) !important; color: #854d0e !important; } /* 黃底黑字 */
+.ls-bg-g { background-color: var(--mark-green) !important; color: white !important; }
+.ls-bg-t { background-color: var(--mark-teal) !important; color: white !important; }
+.ls-bg-s { background-color: var(--mark-sky) !important; color: white !important; }
+.ls-bg-b { background-color: var(--mark-blue) !important; color: white !important; }
+.ls-bg-p { background-color: var(--mark-purple) !important; color: white !important; }
+.ls-bg-i { background-color: var(--mark-pink) !important; color: white !important; }
+.ls-bg-a { background-color: var(--mark-gray) !important; color: white !important; }
+.ls-bg-k { background-color: #1f2937 !important; color: #f9fafb !important; } /* 黑底白字 */
+
+/* 背景模式基礎外觀 */
+.ls-color-bg-mode {
+    padding: 1px 6px !important;
+    border-radius: 4px !important;
+    margin: 0 2px !important;
+    font-weight: 500 !important;
+}
+
