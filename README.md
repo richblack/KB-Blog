@@ -116,4 +116,27 @@ python3 -m venv .venv
 ```
 
 ---
+
+## 🛠️ 進階功能 (Advanced Features)
+
+### 1. 圖片裁切 (Image Cropping)
+AI 生成的圖片通常是正方形 (1:1)，但在文章中顯示時，16:9 的比例通常看起來更專業。我們提供了一個小工具幫你置中裁切。
+
+**使用方式：**
+```bash
+python3 scripts/crop_utils.py <圖片路徑>
+```
+*   它會自動裁切中間的 16:9 區域。
+*   原始圖片不會被覆蓋，會產生一個新檔案 `_cropped`。
+
+### 2. AI 寫作技能 (AI Skills)
+你可以教導 AI (如 Cursor, Cline) 模仿你的寫作風格。
+
+*   **位置**：`KB/skills/writing_skill_template.md`
+*   **用法**：
+    1.  複製這個檔案，填入你喜歡的寫作風格範例。
+    2.  在與 AI 對話時，引用這個檔案（例如 `@writing_skill.md`）。
+    3.  告訴 AI：「請參考這個風格指南來撰寫這篇文章。」
+
+---
 *Powered by [Quartz v4](https://quartz.jzhao.xyz/) and Logseq.*
