@@ -57,7 +57,7 @@ def generate_dashboard(articles: List[Article], config: PublisherConfig):
     
     for art in recent_posts:
         date_str = get_date_str(art)
-        title = art.title
+        title = art.title.replace("**", "").replace("__", "")
         categories = art.categories
         
         # Logseq path

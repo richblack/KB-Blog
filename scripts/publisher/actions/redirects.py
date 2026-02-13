@@ -54,12 +54,10 @@ def generate_redirects(articles: List[Article], config: PublisherConfig):
     
     all_redirects = redirects + short_redirects
     
-    redirects_path = os.path.join(config.quartz_content_dir, "..", "static", "_redirects")
-    # Resolve relative path from config.quartz_content_dir which is likely ./quartz/content
-    # So .. -> ./quartz -> static -> ./quartz/static/_redirects
-    # However config.quartz_content_dir is a string path.
-    # Safe construction:
-    static_dir = os.path.abspath(os.path.join(config.quartz_content_dir, "..", "static"))
+    # The python script runs from root, and config.quartz_content_dir is "content" (or similar)
+    # We want to target "quartz/static" regardless of content dir location relative to root
+    # Assuming the script is run from project root:
+    static_dir = os.path.join("quartz", "static")
     os.makedirs(static_dir, exist_ok=True)
     redirects_file = os.path.join(static_dir, "_redirects")
     

@@ -18,8 +18,14 @@ def sanitize_content_links(text: str, for_quartz: bool = True) -> str:
         
         if for_quartz:
             # Quartz 輸出時將空格轉為 -
-            # 注意：管道符號理論上已經不存在，但為了保險起見仍做替換
-            content = content.replace('|', '-').replace('｜', '-').replace(' ', '-')
+            # 處理 Alias [[Target|Alias]]
+            if '|' in content:
+                target, alias = content.split('|', 1)
+                target = target.replace(' ', '-').strip()
+                # Alias 不需處理空格，保持原樣
+                return f'[[{target}|{alias}]]'
+            else:
+                content = content.replace(' ', '-')
         
         return f'[[{content}]]'
 
@@ -43,7 +49,7 @@ def get_safe_path_elements(title: str, categories: str):
         safe_cat = primary_cat.replace("/", "-").replace(" ", "-")
     
     # 處理標題 (移除 /, :, |, ｜, 並將空格轉為 -)
-    safe_title = title.replace("/", "-").replace(":", "-").replace("|", "-").replace("｜", "-").replace(" ", "-").strip().lstrip("#").strip()
+    safe_title = title.replace("/", "-").replace(":", "-").replace("：", "-").replace("|", "-").replace("｜", "-").replace(" ", "-").strip().lstrip("#").replace("**", "").replace("__", "").replace("'", "").replace('"', "").strip()
     
     return safe_cat, safe_title
 

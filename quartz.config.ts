@@ -18,7 +18,7 @@ const config: QuartzConfig = {
         },
         locale: "zh-TW",
         baseUrl: "your-website.com",
-        ignorePatterns: ["private", "templates", ".obsidian", ".git", "logseq", ".tmp*", ".DS_Store"],
+        ignorePatterns: ["private", "templates", ".obsidian", ".git", "logseq", ".tmp*", ".DS_Store", "node_modules", "**/*.d.ts", "**/node_modules"],
         defaultDateType: "created",
         theme: {
             fontOrigin: "googleFonts",

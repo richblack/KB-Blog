@@ -13,6 +13,7 @@ def generate_quartz_frontmatter(article: Article, logseq_dir: str) -> str:
     # Title
     raw_title = fm.get("title", article.title)
     title = str(raw_title).strip().lstrip("#").strip()
+    title = title.replace("**", "").replace("__", "")  # Strip markdown bold
     lines.append(f'title: "{title}"')
     
     # Date
@@ -63,26 +64,42 @@ def generate_quartz_frontmatter(article: Article, logseq_dir: str) -> str:
     lines.append("---")
     return "\n".join(lines)
 
-def generate_related_articles(article: Article, tag_index: Dict[str, List[Article]], max_related=5) -> str:
+def generate_related_articles(article: Article, tag_index: Dict[str, List[Article]], category_index: Dict[str, List[Article]] = None, max_related=5) -> str:
     current_tags = set(article.tags)
-    if not current_tags:
-        return ""
-        
     candidates = {}
     
-    for tag in current_tags:
-        for related_art in tag_index.get(tag, []):
-            if related_art.title == article.title:
-                continue
-            
-            title = related_art.title
-            if title not in candidates:
-                candidates[title] = {
-                    "score": 0,
-                    "art": related_art
-                }
-            candidates[title]["score"] += 1
-            
+    # 1. Tag Matching (High Score)
+    if current_tags:
+        for tag in current_tags:
+            for related_art in tag_index.get(tag, []):
+                if related_art.title == article.title:
+                    continue
+                
+                title = related_art.title
+                if title not in candidates:
+                    candidates[title] = {
+                        "score": 0,
+                        "art": related_art
+                    }
+                candidates[title]["score"] += 3  # Tag Match = 3 points
+
+    # 2. Category Matching (Low Score)
+    if category_index and article.categories:
+        # Support comma separated categories
+        cats = [c.strip() for c in str(article.categories).split(',')]
+        for cat in cats:
+            for related_art in category_index.get(cat, []):
+                 if related_art.title == article.title:
+                    continue
+                 
+                 title = related_art.title
+                 if title not in candidates:
+                    candidates[title] = {
+                        "score": 0,
+                        "art": related_art
+                    }
+                 candidates[title]["score"] += 1 # Category Match = 1 point
+
     if not candidates:
         return ""
         

@@ -25,12 +25,12 @@ import { minimatch } from "minimatch"
 type ContentMap = Map<
   FilePath,
   | {
-      type: "markdown"
-      content: ProcessedContent
-    }
+    type: "markdown"
+    content: ProcessedContent
+  }
   | {
-      type: "other"
-    }
+    type: "other"
+  }
 >
 
 type BuildData = {
@@ -147,13 +147,12 @@ async function startWatching(
     persistent: true,
     cwd: argv.directory,
     ignoreInitial: true,
+    ignored: buildData.ignored,
   })
-
   const changes: ChangeEvent[] = []
   watcher
     .on("add", (fp) => {
       fp = toPosixPath(fp)
-      if (buildData.ignored(fp)) return
       changes.push({ path: fp as FilePath, type: "add" })
       void rebuild(changes, clientRefresh, buildData)
     })

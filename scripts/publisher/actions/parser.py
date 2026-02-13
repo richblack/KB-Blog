@@ -24,13 +24,15 @@ def parse_logseq_file(filepath: Path, config: PublisherConfig) -> List[Article]:
 
     articles = []
     
-    # 模式 1: 尋找包含 UUID 的 Block (優先)
-    if config.publish_uuid in content:
-        articles.extend(_parse_block_based(filepath, content, config.publish_uuid))
+    # 模式 1: 尋找包含 UUID 或 ++/publish 的 Block (優先)
+    # 支援新舊兩種標記方式
+    trigger_tag = "++/publish"
+    
+    if config.publish_uuid in content or trigger_tag in content:
+        articles.extend(_parse_block_based(filepath, content, config.publish_uuid, trigger_tag))
             
     # 模式 2: Legacy File Page (標準 Markdown 前言)
     # 條件: 在 Pages 目錄 + 有 frontmatter + 無 UUID (或 UUID 不在標題，這裡簡化邏輯：如果在 pages 目錄且有 frontmatter)
-    # 為了避免重複，如果已經用 Block 模式抓到了，理論上不應該再抓，但為了保險起見，可以檢查 articles 是否為空
     if not articles and "pages" in str(filepath) and content.startswith("---"):
         article = _parse_legacy_file(filepath, content)
         if article:
@@ -38,7 +40,7 @@ def parse_logseq_file(filepath: Path, config: PublisherConfig) -> List[Article]:
 
     return articles
 
-def _parse_block_based(filepath: Path, content: str, publish_uuid: str) -> List[Article]:
+def _parse_block_based(filepath: Path, content: str, publish_uuid: str, trigger_tag: str) -> List[Article]:
     articles = []
     lines = content.split('\n')
     i = 0
@@ -52,19 +54,29 @@ def _parse_block_based(filepath: Path, content: str, publish_uuid: str) -> List[
             in_code_block = not in_code_block
         
         has_valid_uuid = False
+        start_marker = ""
+        
+        # 檢查 UUID
         if publish_uuid in line:
-            # 移除 inline code 避免誤判
             line_no_code = re.sub(r'(`+).*?\1', '', line)
             if publish_uuid in line_no_code:
                 has_valid_uuid = True
+                start_marker = f"(({publish_uuid}))"
 
-        # 尋找包含 UUID 的行 (Title Block)
+        # 檢查 ++/publish
+        if not has_valid_uuid and trigger_tag in line:
+             line_no_code = re.sub(r'(`+).*?\1', '', line)
+             if trigger_tag in line_no_code:
+                 has_valid_uuid = True
+                 start_marker = trigger_tag
+
         if has_valid_uuid and not in_code_block and not line.strip().startswith("id::"):
             # 計算縮排級別
             indent = len(line) - len(line.lstrip())
             
             # 提取標題
-            raw_title = line.strip().lstrip('- ').lstrip('# ').replace(f"(({publish_uuid}))", "").strip()
+            raw_title = line.strip().lstrip('- ').lstrip('# ').replace(start_marker, "").strip()
+            raw_title = raw_title.replace("**", "").replace("__", "") # Clean Markdown
             
             block_content = []
             frontmatter_raw = {}
@@ -216,6 +228,12 @@ def _parse_block_based(filepath: Path, content: str, publish_uuid: str) -> List[
                 block_content.append(articles_lines)
                 j += 1
             
+            if not raw_title:
+                 # print(f"DEBUG: Skipping empty title block in {filepath}")
+                 i = j
+                 continue
+
+            # print(f"DEBUG: Parsed article '{raw_title}' from {filepath} (Type: block)")
             articles.append(Article(
                 title=raw_title,
                 frontmatter=frontmatter_raw,
@@ -242,9 +260,11 @@ def _parse_legacy_file(filepath: Path, content: str) -> Optional[Article]:
                 is_draft = is_draft.lower() == "true"
             
             if not is_draft and frontmatter:
+                title = frontmatter.get("title", filepath.stem)
+                # print(f"DEBUG: Parsed article '{title}' from {filepath} (Type: legacy)")
                 body = content[end_marker+3:].strip()
                 return Article(
-                    title=frontmatter.get("title", filepath.stem),
+                    title=title,
                     frontmatter=frontmatter,
                     body=body,
                     source_file=filepath.name,
